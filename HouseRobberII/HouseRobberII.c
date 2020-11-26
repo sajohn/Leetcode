@@ -30,6 +30,8 @@ int rob(int* nums, int numsSize)
    
         f2[i] = max(f2[i-2]+nums[i+1], f2[i-1]);
     }
+    
+    
     return max(f1[numsSize-2], f2[numsSize-2]);
 }
 
