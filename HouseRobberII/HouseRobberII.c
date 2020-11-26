@@ -20,16 +20,15 @@ int rob(int* nums, int numsSize)
     f1[1] = max(nums[0], nums[1]);
     
     
-    for(int i =2; i < numsSize-1; i++)
-        f1[i] = max(f1[i-2]+nums[i], f1[i-1]);
-    
     f2[0] = nums[1];
     f2[1] = max(nums[1], nums[2]);
     
    
      for(int i =2; i <=numsSize-2; i++)
+     {
         f2[i] = max(f2[i-2]+nums[i+1], f2[i-1]);
-    
+        f1[i] = max(f1[i-2]+nums[i], f1[i-1]);
+     }
     return max(f1[numsSize-2], f2[numsSize-2]);
 }
 
