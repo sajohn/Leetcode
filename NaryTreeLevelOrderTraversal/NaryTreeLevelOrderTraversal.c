@@ -168,7 +168,11 @@ int** levelOrder(struct Node* root, int* returnSize, int** returnColumnSizes)
        if(root == NULL || returnSize == NULL )
        {
            *returnSize = 0;
-           return NULL;
+           int* level = (int*)calloc(1, sizeof(int));
+           *returnColumnSizes = level;
+           *level =0;
+          (*returnColumnSizes)[0] = *level;
+          return NULL;   
        }
     
     int size = CalSize(root);
