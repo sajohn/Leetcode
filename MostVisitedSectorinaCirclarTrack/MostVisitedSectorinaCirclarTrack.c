@@ -49,18 +49,29 @@ int* mostVisited(int n, int* rounds, int roundsSize, int* returnSize)
     }
     //Last one
     count[tmp2%n].count++;
+<<<<<<< HEAD
     count[tmp2%n].sector = (tmp2%n == 0? n:tmp2%n);
     
      qsort(&count, n, sizeof(struct Count), cmpfunc);
        max = count[0].count;
  
+=======
+    count[tmp2%n].sector = tmp2%n;
+    
+      qsort(&count, n, sizeof(struct Count), cmpfunc);
+       max = count[0].count;
+>>>>>>> 3aee9f4d0cff0dc9960fe155927585202ddfb2cd
     int k =0;
     bool fix = false;
     for(int i = 0; i < n; i++)
     {
         if(count[i].count >=max)
         {
+<<<<<<< HEAD
             if(count[i].sector == n)
+=======
+            if(count[i].sector == 0)
+>>>>>>> 3aee9f4d0cff0dc9960fe155927585202ddfb2cd
             {
              fix = true;
              continue;
@@ -79,7 +90,12 @@ int* mostVisited(int n, int* rounds, int roundsSize, int* returnSize)
         ret[k] = n;
            (*returnSize)++;
     }
+<<<<<<< HEAD
 
+=======
+    
+    qsort(ret, (*returnSize), sizeof(int), cmpfuncInt );
+>>>>>>> 3aee9f4d0cff0dc9960fe155927585202ddfb2cd
     return ret;
 }
 
