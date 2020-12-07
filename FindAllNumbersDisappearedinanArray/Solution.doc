@@ -1,0 +1,314 @@
+Solution
+Approach 1: Using Hash Map
+Intuition
+
+The intuition behind using a hash map is pretty clear in this case. We are given that the array would be of size N and it should contain numbers from 1 to N. However, some of the numbers are missing. All we have to do is keep track of which numbers we encounter in the array and then iterate from 1 \cdots N1⋯N and check which numbers did not appear in the hash table. Those will be our missing numbers. Let's look at a formal algorithm based on this idea and then an animation explaining the same with the help of a simple example.
+
+Algorithm
+
+Initialize a hash map, hash to keep track of the numbers that we encounter in the array. Note that we can use a set data structure as well in this case since we are not concerned about the frequency counts of elements.
+
+
+Note that for the purposes of illustration, we have use a hash map of size 14 and have ordered the keys of the hash map from 0 to 14. Also, we will be using a simple hash function that directly maps the array entries to their corresponding keys in the hash map. Usually, the mapping is not this simple and is dependent upon the hash function being used in the implementation of the hash map.
+
+Next, iterate over the given array one element at a time and for each element, insert an entry in the hash map. Even if an entry were to exist before in the hash map, it will simply be over-written. For the above example, let's look at the final state of the hash map once we process the last element of the array.
+
+
+Now that we know the unique set of elements from the array, we can simply find out the missing elements from the range 1 \cdots N1⋯N.
+
+Iterate over all the numbers from 1 \cdots N1⋯N and for each number, check if there's an entry in the hash map. If there is no entry, add that missing number to a result array that we will return from the function eventually.
+
+Current
+1 / 9
+
+Complexity Analysis
+
+Time Complexity : O(N)O(N)
+Space Complexity : O(N)O(N)
+
+Approach 2: O(1) Space InPlace Modification Solution
+Intuition
+
+We definitely need to keep track of all the unique numbers that appear in the array. However, we don't want to use any extra space for it. This solution that we will look at in just a moment springs from the fact that
+
+All the elements are in the range [1, N]
+
+Since we are given this information, we can make use of the input array itself to somehow mark visited numbers and then find our missing numbers. Now, we don't want to change the actual data in the array but who's stopping us from changing the magnitude of numbers in the array? That is the basic idea behind this algorithm.
+
+We will be negating the numbers seen in the array and use the sign of each of the numbers for finding our missing numbers. We will be treating numbers in the array as indices and mark corresponding locations in the array as negative.
+
+Algorithm
+
+Iterate over the input array one element at a time.
+For each element nums[i], mark the element at the corresponding location negative if it's not already marked so i.e. nums[\; nums[i] \;- 1\;] \times -1nums[nums[i]−1]×−1 .
+Now, loop over numbers from 1 \cdots N1⋯N and for each number check if nums[j] is negative. If it is negative, that means we've seen this number somewhere in the array.
+Add all the numbers to the resultant array which don't have their corresponding locations marked as negative in the original array.
+Current
+1 / 17
+
+Complexity Analysis
+
+Time Complexity : O(N)O(N)
+Space Complexity : O(1)O(1) since we are reusing the input array itself as a hash table and the space occupied by the output array doesn't count toward the space complexity of the algorithm.
+
+Comments: 23
+BestMost VotesNewest to OldestOldest to Newest
+Type comment here... (Markdown is supported)
+
+Preview
+
+Post
+lidaivet's avatar
+lidaivet
+169
+May 13, 2020 6:56 PM
+
+Read More
+I like this question.
+But the optimal solution is like one of those either you get it right away, or you need some hint.
+
+28
+Show 1 reply
+Reply
+Share
+Report
+yh32's avatar
+yh32
+45
+December 26, 2019 9:56 AM
+
+Read More
+Swapping Solution, O(n) runtime, O(1) space:
+
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        for(int i = 0; i < nums.length; i++){
+            int idx = nums[i]-1;
+            // swap until the nums[i] is at index nums[i]-1
+            while(idx != nums[i]){
+                swap(nums, idx, i);
+                idx = nums[i] - 1;
+                // if we are going to swap same number: break
+                if(nums[idx] == nums[i]){
+                    break;
+                }
+            }
+        }
+        // In this point, the array looks like this: [1,2,3,4,3,2,7,8]
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            if(i != nums[i]-1){
+                res.add(i+1);
+            }
+        }
+        
+        return res;
+    }
+    
+    private void swap(int[] nums, int idx1, int idx2){
+        int temp = nums[idx1];
+        nums[idx1] = nums[idx2];
+        nums[idx2] = temp;
+    }
+}
+8
+Show 4 replies
+Reply
+Share
+Report
+roireshef's avatar
+roireshef
+72
+May 14, 2020 5:35 AM
+
+Read More
+Python 4-liner O(n) runtime with O(1) space using swapping (without negating, IMHO clearer solution)
+
+def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+    for idx in range(len(nums)):                       
+        while nums[nums[idx]-1] != nums[idx]: # value at target index misplaced
+            nums[nums[idx]-1], nums[idx] = nums[idx], nums[nums[idx]-1]  # swap
+
+    return [idx+1 for idx, num in enumerate(nums) if num != idx + 1] 
+12
+Reply
+Share
+Report
+DawsonDev's avatar
+DawsonDev
+5
+Last Edit: October 27, 2019 12:31 PM
+
+Read More
+This is just a set difference {1...n} - {nums} = {missing numbers}. Here's an easy solution in JavaScript:
+
+var findDisappearedNumbers = function(nums) {
+    let range = [];
+    for (let i = 0; i < nums.length;i++) range.push(i+1);
+    return range.filter(x => nums.indexOf(x) < 0);
+};
+3
+Show 2 replies
+Reply
+Share
+Report
+AshokaKS's avatar
+AshokaKS
+16
+September 14, 2020 11:32 PM
+
+Read More
+C++ solution with 2 FOR loops.
+First swap elements which are not in their intended place.
+Finally check the missing elements
+
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        bool modified = true;
+        while(modified) {
+            modified = false;
+            for (int i=0; i<nums.size(); i++) {
+                if ((nums[i] != i+1) && (nums[i] != nums[nums[i]-1])) {
+                    swap(nums[i], nums[nums[i]-1]);
+                    modified = true;
+                }
+            }
+        }
+        vector<int> res;
+        for (int i=0; i<nums.size(); i++) {
+            if (nums[i] != i+1)
+                res.push_back(i+1);
+        }
+        
+        return res;
+    }
+};
+1
+Reply
+Share
+Report
+sjkoo's avatar
+sjkoo
+37
+August 19, 2020 2:27 PM
+
+Read More
+Hmmm.... I feel like this problem could be a medium if it didn't allow anything above O(1) space.
+
+1
+Reply
+Share
+Report
+vaibhavp's avatar
+vaibhavp
+0
+September 20, 2020 4:16 PM
+
+Read More
+faster than 95%
+
+class Solution(object):
+    def findDisappearedNumbers(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        n =  len(nums)
+        nums = set(nums)
+        res = []
+        for i in range(1, n+1):
+            if i not in nums:
+                res.append(i)
+        return res
+0
+Show 1 reply
+Reply
+Share
+Report
+samuelwatson05's avatar
+samuelwatson05
+0
+November 30, 2020 5:41 PM
+
+Read More
+Python simple and Faster than 99.62%
+
+class Solution:
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        numSet = set(nums)
+        returnList = []
+        
+        for i in range(1, len(nums)+1):
+            if i not in numSet:
+                returnList.append(i)
+            
+
+        return returnList
+0
+Reply
+Share
+Report
+snedden27's avatar
+snedden27
+20
+November 16, 2020 7:40 PM
+
+Read More
+why do we need Math.abs(
+
+0
+Show 1 reply
+Reply
+Share
+Report
+scottseeker's avatar
+scottseeker
+1
+November 8, 2020 4:06 PM
+
+Read More
+Is my solution still O(N)?
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function(nums) {
+    
+    let notFound = [];
+    
+    if(!nums || nums.length == 0) {
+        return notFound;
+    }
+    
+    let pointer = 0;
+    while(pointer < nums.length) {
+        // if it is no correct value (o index should be value 1, for example)
+        if(nums[pointer] != pointer+1) {     
+            // get value
+            let temp = nums[pointer];
+            if(temp == nums[temp-1]) { // if it has already been set, we have a dupe, set to 0
+                nums[pointer] = 0;
+                pointer++;
+            } else { // otherwise, set index to same value, swap values
+                nums[pointer] = nums[temp-1];
+                nums[temp-1] = temp;
+            }            
+        } else {
+            // otherwise move on to next
+            pointer++;
+        }
+    }
+    
+    let resultArray = [];
+    for(let i = 0; i < nums.length; i++) {
+        if(nums[i] !== i+1) {
+            resultArray.push(i+1);
+        }
+    }
+    
+    return resultArray;
+};
+0
+Show 1 reply
