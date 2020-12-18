@@ -5,6 +5,10 @@ typedef struct {
     int rear;
     int size; 
     int* array;
+<<<<<<< HEAD
+=======
+    int* timestamp;
+>>>>>>> e10cd06d6b5fc4d019363f494b984b7e7cc6c4a3
     int capacity; 
 } HitCounter;
 
