@@ -1,22 +1,3 @@
-/******************************************************************************
-
-                            Online C Compiler.
-                Code, Compile, Run and Debug C program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <pthread.h>
-#include <math.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#define bool int
-#define true 1
-#define false 0
 
 /******************************************************************************
 
@@ -115,4 +96,3 @@ int main(int argc, char const *argv[])
     printf("%s\n", "DONE"); // never reached until t1 & t2 is killed
     return 0;
 }
-

@@ -80,6 +80,10 @@ int main()
      printf("Threads are synchronized\n");
 
    sem_destroy(&mutex);
+  
+   pthread_mutexattr_destroy(&attr1);
+  
+   pthread_mutexattr_destroy(&attr2);
    pthread_exit(NULL); ///This is used for 
 
 }
