@@ -17,7 +17,10 @@ typedef __timer_t timer_t;
 #endif
 
 #define A_DESCRIPTIVE_NAME 13
-	
+
+
+
+
 int main()
 {
 	int err;
@@ -38,6 +41,14 @@ int main()
       new_setting.it_interval.tv_sec=0;
       new_setting.it_interval.tv_nsec=100*1000;
 
+        timer_settime(created_timer, 0, &new_setting, NULL);
+        /* Wait 10 seconds under the main thread. In 5 seconds (when the
+         * timer expires), a message will be printed to the standard output
+         * by the newly created notification thread.
+         */
+        sleep(10);
+        /* Delete (destroy) the timer */
+        timer_delete(created_timer);
 
 return 0;
 }
