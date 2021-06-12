@@ -73,4 +73,3 @@ int main(int argc, char * argv[])
     sem_destroy(&mutex);
     pthread_exit(NULL);
 }
-

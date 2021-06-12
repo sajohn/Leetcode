@@ -3,6 +3,8 @@
 #include <stdlib.h>  // for exit
 #include <semaphore.h>
 #include <unistd.h> 
+#include <errno.h>
+#include <ctype.h>
 
 #define NITER 1000000
 
