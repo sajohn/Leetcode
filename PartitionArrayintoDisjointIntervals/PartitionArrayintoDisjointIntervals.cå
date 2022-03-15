@@ -1,0 +1,54 @@
+
+
+// int partitionDisjoint(int* nums, int numsSize){
+      
+//     if(nums == NULL || numsSize == 0)
+//         return -1; 
+//     int maxleft[numsSize], minright[numsSize];
+//     memset(maxleft, 0 ,sizeof(int)*numsSize);
+//     memset(minright, 0, sizeof(int)*numsSize);
+    
+//     maxleft[0] = nums[0];
+//     minright[numsSize-1] = nums[numsSize-1];
+    
+//     for(int i =1; i < numsSize; i++){
+//       maxleft[i] = ( nums[i]> maxleft[i-1] ? nums[i]:maxleft[i-1]);
+//       minright[numsSize-1-i] = (nums[numsSize-1-i] < minright[numsSize-i]? nums[numsSize-1-i]:minright[numsSize-i]);
+//     } 
+    
+//     for(int i =1; i < numsSize; i++)
+//     {
+//         if(maxleft[i-1]<=minright[i])
+//             return i; 
+        
+//     }
+
+//     return 0; 
+// }
+/*
+[5,0,3,8,6]
+5 5 5 8 8 
+0 0 3 6 6
+
+[32,57,24,19,0,24,49,67,87,87]
+32 57 57 57 57 57 57 67 87 87
+0  0  0  0  0  24 49 67 87 87
+*/
+int partitionDisjoint(int* nums, int numsSize) {
+       
+    if(nums == NULL || numsSize == 0)
+        return -1;
+    int maxleft = nums[0], curmax = nums[0], length =1, nextmax =nums[0];
+    
+    for(int i =1 ; i< numsSize; i++)
+    {
+        if(nums[i] < maxleft)
+        {
+            length = i+1; 
+            maxleft = nextmax;
+        } 
+        nextmax = (nextmax > nums[i] ? nextmax: nums[i]);
+    }
+
+    return length; 
+}
